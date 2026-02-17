@@ -1,0 +1,92 @@
+<%- include('header') %>
+
+<h3 class="mb-4"><i class="bi bi-ticket-detailed"></i> Tickets</h3>
+
+<!-- Filter -->
+<div class="card stat-card p-3 mb-4">
+  <form method="GET" action="/tickets" class="row g-2 align-items-center">
+    <div class="col-auto">
+      <label class="form-label mb-0">Filter สถานะ:</label>
+    </div>
+    <div class="col-auto">
+      <select name="status" class="form-select form-select-sm">
+        <option value="">ทั้งหมด</option>
+        <option value="เปิด" <%= statusFilter === 'เปิด' ? 'selected' : '' %>>เปิด</option>
+        <option value="กำลังดำเนินการ" <%= statusFilter === 'กำลังดำเนินการ' ? 'selected' : '' %>>กำลังดำเนินการ</option>
+        <option value="ปิด" <%= statusFilter === 'ปิด' ? 'selected' : '' %>>ปิด</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary btn-sm">กรอง</button>
+    </div>
+  </form>
+</div>
+
+<!-- Ticket Detail Modal -->
+<% if (typeof detail !== 'undefined' && detail) { %>
+<div class="card stat-card p-4 mb-4 border-primary border-2">
+  <h5>Ticket #<%= detail.id %> - รายละเอียด</h5>
+  <table class="table table-sm">
+    <tr><td class="fw-bold" style="width:160px">ผู้แจ้ง</td><td><%= detail.reporter %></td></tr>
+    <tr><td class="fw-bold">แผนก</td><td><%= detail.department %></td></tr>
+    <tr><td class="fw-bold">ชั้น</td><td><%= detail.floor %></td></tr>
+    <tr><td class="fw-bold">Computer</td><td><%= detail.computer %></td></tr>
+    <tr><td class="fw-bold">IP</td><td><%= detail.ip %></td></tr>
+    <tr><td class="fw-bold">เบอร์โทร</td><td><%= detail.voice %></td></tr>
+    <tr><td class="fw-bold">รหัสพนักงาน</td><td><%= detail.employee_id %></td></tr>
+    <tr><td class="fw-bold">ชื่อเจ้าของเครื่อง</td><td><%= detail.owner_name %></td></tr>
+    <tr><td class="fw-bold">ปัญหา</td><td><%= detail.problem %></td></tr>
+    <tr><td class="fw-bold">วิธีแก้</td><td><%= detail.solution || '-' %></td></tr>
+    <tr><td class="fw-bold">ช่าง IT</td><td><%= detail.technician || '-' %></td></tr>
+    <tr><td class="fw-bold">สถานะ</td><td><%= detail.status %></td></tr>
+    <tr><td class="fw-bold">เปิดเมื่อ</td><td><%= detail.opened_at %></td></tr>
+    <tr><td class="fw-bold">ปิดเมื่อ</td><td><%= detail.closed_at || '-' %></td></tr>
+  </table>
+  <a href="/tickets" class="btn btn-secondary btn-sm">กลับ</a>
+</div>
+<% } %>
+
+<!-- Tickets Table -->
+<div class="card stat-card p-3">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover mb-0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ผู้แจ้ง</th>
+          <th>แผนก</th>
+          <th>ปัญหา</th>
+          <th>สถานะ</th>
+          <th>เปิดเมื่อ</th>
+          <th>ดู</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (tickets.length === 0) { %>
+        <tr><td colspan="7" class="text-center text-muted">ไม่พบ Ticket</td></tr>
+        <% } %>
+        <% tickets.forEach(t => { %>
+        <tr>
+          <td><%= t.id %></td>
+          <td><%= t.reporter %></td>
+          <td><%= t.department %></td>
+          <td title="<%= t.problem %>"><%= t.problem.length > 40 ? t.problem.substring(0, 40) + '...' : t.problem %></td>
+          <td>
+            <% if (t.status === 'เปิด') { %>
+              <span class="badge bg-danger">เปิด</span>
+            <% } else if (t.status === 'กำลังดำเนินการ') { %>
+              <span class="badge bg-warning text-dark">กำลังดำเนินการ</span>
+            <% } else { %>
+              <span class="badge bg-success">ปิด</span>
+            <% } %>
+          </td>
+          <td><%= t.opened_at %></td>
+          <td><a href="/tickets/<%= t.id %>" class="btn btn-outline-primary btn-sm">ดู</a></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('footer') %>

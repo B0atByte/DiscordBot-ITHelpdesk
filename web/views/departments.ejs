@@ -1,0 +1,89 @@
+<%- include('header') %>
+
+<h3 class="mb-4"><i class="bi bi-building"></i> Departments</h3>
+
+<% if (saved) { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  บันทึกสำเร็จ!
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } %>
+<% if (deleted) { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  ลบสำเร็จ!
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } %>
+
+<!-- Add Department -->
+<div class="card stat-card p-4 mb-4">
+  <h5 class="mb-3">เพิ่มแผนกใหม่</h5>
+  <form method="POST" action="/departments/add" class="row g-2 align-items-center">
+    <div class="col-auto">
+      <input type="text" name="name" class="form-control" placeholder="ชื่อแผนก" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg"></i> เพิ่ม</button>
+    </div>
+  </form>
+</div>
+
+<!-- Departments List -->
+<div class="card stat-card p-4">
+  <h5 class="mb-3">แผนกทั้งหมด (<%= departments.length %>)</h5>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover mb-0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ชื่อแผนก</th>
+          <th style="width: 200px">จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% departments.forEach((dept, i) => { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td>
+            <span id="dept-text-<%= i %>"><%= dept %></span>
+            <form method="POST" action="/departments/edit" id="dept-edit-<%= i %>" class="d-none row g-1 align-items-center">
+              <input type="hidden" name="oldName" value="<%= dept %>">
+              <div class="col">
+                <input type="text" name="newName" class="form-control form-control-sm" value="<%= dept %>" required>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm">บันทึก</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(<%= i %>)">ยกเลิก</button>
+              </div>
+            </form>
+          </td>
+          <td>
+            <button class="btn btn-outline-warning btn-sm" onclick="startEdit(<%= i %>)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <form method="POST" action="/departments/delete" class="d-inline" onsubmit="return confirm('ลบแผนก <%= dept %> ?')">
+              <input type="hidden" name="name" value="<%= dept %>">
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function startEdit(i) {
+  document.getElementById('dept-text-' + i).classList.add('d-none');
+  document.getElementById('dept-edit-' + i).classList.remove('d-none');
+}
+function cancelEdit(i) {
+  document.getElementById('dept-text-' + i).classList.remove('d-none');
+  document.getElementById('dept-edit-' + i).classList.add('d-none');
+}
+</script>
+
+<%- include('footer') %>

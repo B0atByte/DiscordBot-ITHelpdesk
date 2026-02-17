@@ -1,0 +1,51 @@
+<%- include('header') %>
+
+<h3 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h3>
+
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="card stat-card text-center p-3">
+      <div class="text-muted small">Ticket ทั้งหมด</div>
+      <div class="display-5 fw-bold text-primary"><%= stats.total %></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card text-center p-3">
+      <div class="text-muted small">เปิด</div>
+      <div class="display-5 fw-bold text-danger"><%= stats.open %></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card text-center p-3">
+      <div class="text-muted small">กำลังดำเนินการ</div>
+      <div class="display-5 fw-bold text-warning"><%= stats.inProgress %></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card text-center p-3">
+      <div class="text-muted small">ปิดแล้ว</div>
+      <div class="display-5 fw-bold text-success"><%= stats.closed %></div>
+    </div>
+  </div>
+</div>
+
+<div class="card stat-card p-4">
+  <h5 class="mb-3">สถานะ Ticket</h5>
+  <% const maxH = 180; %>
+  <div class="row align-items-end" style="height: 220px;">
+    <div class="col text-center">
+      <div class="bg-danger mx-auto rounded" style="width: 60px; height: <%= stats.total > 0 ? Math.max(20, Math.round((stats.open / stats.total) * maxH)) : 20 %>px;"></div>
+      <div class="mt-2 small">เปิด<br><strong><%= stats.open %></strong></div>
+    </div>
+    <div class="col text-center">
+      <div class="bg-warning mx-auto rounded" style="width: 60px; height: <%= stats.total > 0 ? Math.max(20, Math.round((stats.inProgress / stats.total) * maxH)) : 20 %>px;"></div>
+      <div class="mt-2 small">กำลังดำเนินการ<br><strong><%= stats.inProgress %></strong></div>
+    </div>
+    <div class="col text-center">
+      <div class="bg-success mx-auto rounded" style="width: 60px; height: <%= stats.total > 0 ? Math.max(20, Math.round((stats.closed / stats.total) * maxH)) : 20 %>px;"></div>
+      <div class="mt-2 small">ปิดแล้ว<br><strong><%= stats.closed %></strong></div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>

@@ -1,0 +1,155 @@
+{
+  "departments": [
+    "KKP"
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "Requirement",
+      "keywords": [
+        "requirement",
+        "ขอ",
+        "request",
+        "เพิ่ม"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Network Ticket",
+      "keywords": [
+        "wifi",
+        "internet",
+        "network",
+        "lan",
+        "เน็ต",
+        "อินเทอร์เน็ต",
+        "switch",
+        "router",
+        "เครือข่าย",
+        "vpn"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Login Windows Ticket",
+      "keywords": [
+        "login",
+        "password",
+        "windows",
+        "ล็อกอิน",
+        "รหัสผ่าน",
+        "เข้าระบบ",
+        "unlock",
+        "lock"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Computer > Software",
+      "keywords": [
+        "install",
+        "program",
+        "software",
+        "ติดตั้ง",
+        "โปรแกรม",
+        "ซอฟต์แวร์",
+        "update",
+        "อัพเดท",
+        "app",
+        "application"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Voice Ticket",
+      "keywords": [
+        "voice",
+        "โทร",
+        "โทรศัพท์",
+        "สาย",
+        "extension",
+        "ext"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Print Scan and Fax Ticket",
+      "keywords": [
+        "printer",
+        "print",
+        "scan",
+        "fax",
+        "ปริ้น",
+        "พิมพ์",
+        "สแกน",
+        "แฟกซ์",
+        "เครื่องพิมพ์"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Computer > Hardware",
+      "keywords": [
+        "mouse",
+        "keyboard",
+        "monitor",
+        "ram",
+        "hdd",
+        "ssd",
+        "จอ",
+        "คีย์บอร์ด",
+        "เมาส์",
+        "hardware",
+        "ฮาร์ดแวร์",
+        "หน้าจอ",
+        "เครื่อง",
+        "power",
+        "battery"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Meeting",
+      "keywords": [
+        "zoom",
+        "meeting",
+        "ประชุม",
+        "teams",
+        "webex",
+        "conference"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Athena",
+      "keywords": [
+        "athena"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "E-mail Ticket",
+      "keywords": [
+        "email",
+        "e-mail",
+        "outlook",
+        "อีเมล",
+        "เมล",
+        "mail"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Audit Bank",
+      "keywords": [
+        "audit",
+        "bank"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Other",
+      "keywords": []
+    }
+  ]
+}
