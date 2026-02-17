@@ -1,0 +1,41 @@
+<%- include('header') %>
+
+<h3 class="mb-4"><i class="bi bi-gear"></i> Bot Config (.env)</h3>
+
+<% if (saved) { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  บันทึกสำเร็จ! (ต้อง restart bot เพื่อใช้ค่าใหม่)
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } %>
+
+<div class="card stat-card p-4">
+  <form method="POST" action="/config">
+    <div class="mb-3">
+      <label class="form-label fw-bold">DISCORD_TOKEN</label>
+      <input type="password" name="DISCORD_TOKEN" class="form-control" value="<%= envVars.DISCORD_TOKEN || '' %>" placeholder="Bot Token">
+      <div class="form-text">Discord Bot Token</div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">CLIENT_ID</label>
+      <input type="text" name="CLIENT_ID" class="form-control" value="<%= envVars.CLIENT_ID || '' %>" placeholder="Application Client ID">
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">GUILD_ID</label>
+      <input type="text" name="GUILD_ID" class="form-control" value="<%= envVars.GUILD_ID || '' %>" placeholder="Discord Server ID">
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">TICKET_FORUM_CHANNEL_ID</label>
+      <input type="text" name="TICKET_FORUM_CHANNEL_ID" class="form-control" value="<%= envVars.TICKET_FORUM_CHANNEL_ID || '' %>" placeholder="Forum Channel ID สำหรับสร้าง Ticket Post">
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">TICKET_LOG_CHANNEL_ID</label>
+      <input type="text" name="TICKET_LOG_CHANNEL_ID" class="form-control" value="<%= envVars.TICKET_LOG_CHANNEL_ID || '' %>" placeholder="Channel ID สำหรับ Log">
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-save"></i> บันทึก
+    </button>
+  </form>
+</div>
+
+<%- include('footer') %>
