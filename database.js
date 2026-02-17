@@ -86,6 +86,31 @@ function setSolution(channelId, solution) {
   db.prepare('UPDATE tickets SET solution = ? WHERE channel_id = ?').run(solution, channelId);
 }
 
+function setTechnician(channelId, technician) {
+  db.prepare('UPDATE tickets SET technician = ? WHERE channel_id = ?').run(technician, channelId);
+}
+
+function getTicketsByMonth(year, month) {
+  // opened_at is Thai locale: "d/m/yyyy HH:mm:ss" (Buddhist Era year)
+  // Filter all tickets and match by month/year
+  const all = db.prepare('SELECT * FROM tickets ORDER BY id ASC').all();
+  return all.filter(t => {
+    if (!t.opened_at) return false;
+    const parts = t.opened_at.split(/[/ ,]/);
+    // parts: [day, month, year, ...]
+    const m = parseInt(parts[1]);
+    const y = parseInt(parts[2]);
+    return m === parseInt(month) && y === parseInt(year);
+  });
+}
+
+function deleteTicketsByIds(ids) {
+  if (!ids || ids.length === 0) return 0;
+  const placeholders = ids.map(() => '?').join(',');
+  const result = db.prepare(`DELETE FROM tickets WHERE id IN (${placeholders})`).run(...ids);
+  return result.changes;
+}
+
 function getNextTicketNumber() {
   const row = db.prepare('SELECT MAX(id) as maxId FROM tickets').get();
   return (row.maxId || 0) + 1;
@@ -112,7 +137,10 @@ module.exports = {
   updateTicketStatus,
   closeTicket,
   setSolution,
+  setTechnician,
   getNextTicketNumber,
   saveUserDepartment,
   getUserDepartment,
+  getTicketsByMonth,
+  deleteTicketsByIds,
 };

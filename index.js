@@ -25,7 +25,7 @@ for (const file of commandFiles) {
 }
 
 // Bot ready
-client.once('ready', () => {
+client.on('ready', () => {
   console.log(`✅ Bot is online as ${client.user.tag}`);
 });
 
@@ -78,6 +78,28 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
+// Restart bot function
+async function restartBot() {
+  console.log('🔄 กำลัง restart bot...');
+  // Reload .env
+  require('dotenv').config({ override: true });
+  const token = process.env.DISCORD_TOKEN;
+  if (!token) throw new Error('ไม่พบ DISCORD_TOKEN');
+
+  // Close WebSocket only (don't use destroy - it clears token/REST state)
+  try {
+    client.ws.destroy();
+  } catch (e) {
+    // ignore
+  }
+
+  // Ensure token is set
+  client.token = token;
+  client.rest.setToken(token);
+  await client.login(token);
+  console.log(`✅ Bot restarted as ${client.user.tag}`);
+}
+
 // Start web admin panel (รันได้เสมอแม้ยังไม่มี Token)
 const { startWebServer } = require('./web/server');
 startWebServer();
@@ -92,3 +114,5 @@ if (process.env.DISCORD_TOKEN) {
   console.log('⚠️ ยังไม่ได้ตั้งค่า DISCORD_TOKEN');
   console.log('📝 ตั้งค่าได้ที่ http://localhost:3000/config');
 }
+
+module.exports = { restartBot };

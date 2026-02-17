@@ -14,11 +14,7 @@ module.exports = {
   async execute(interaction) {
     const embed = new EmbedBuilder()
       .setTitle('🛠️ ระบบแจ้งซ่อม IT')
-      .setDescription(
-        'หากคุณต้องการแจ้งปัญหาด้าน IT\nกรุณากดปุ่ม **เปิดเคส** ด้านล่างเพื่อเริ่มต้น'
-      )
-      .setColor(0x2ecc71)
-      .setFooter({ text: 'IT Support Ticket System' });
+      .setColor(0x2ecc71);
 
     const button = new ActionRowBuilder().addComponents(
       new ButtonBuilder()

@@ -41,13 +41,6 @@ async function handleDepartmentSelect(interaction) {
     .setCustomId(`ticket_modal_${department}`)
     .setTitle('แจ้งซ่อม IT');
 
-  const floorInput = new TextInputBuilder()
-    .setCustomId('floor')
-    .setLabel('Floor')
-    .setStyle(TextInputStyle.Short)
-    .setRequired(true)
-    .setMaxLength(10);
-
   const computerInput = new TextInputBuilder()
     .setCustomId('computer')
     .setLabel('Computer')
@@ -55,20 +48,29 @@ async function handleDepartmentSelect(interaction) {
     .setRequired(true)
     .setMaxLength(50);
 
-  const ipVoiceEmpInput = new TextInputBuilder()
-    .setCustomId('ip_voice_emp')
-    .setLabel('IP | VOICE | รหัสพนักงาน (คั่นด้วย |)')
+  const ipInput = new TextInputBuilder()
+    .setCustomId('ip')
+    .setLabel('IP')
     .setStyle(TextInputStyle.Short)
-    .setPlaceholder('192.168.1.1 | 1234 | EMP001')
-    .setRequired(true)
-    .setMaxLength(100);
-
-  const ownerInput = new TextInputBuilder()
-    .setCustomId('owner_name')
-    .setLabel('เจ้าของเครื่อง')
-    .setStyle(TextInputStyle.Short)
+    .setPlaceholder('192.168.1.1')
     .setRequired(true)
     .setMaxLength(50);
+
+  const voiceInput = new TextInputBuilder()
+    .setCustomId('voice')
+    .setLabel('VOICE')
+    .setStyle(TextInputStyle.Short)
+    .setPlaceholder('1234')
+    .setRequired(true)
+    .setMaxLength(50);
+
+  const empOwnerInput = new TextInputBuilder()
+    .setCustomId('emp_owner')
+    .setLabel('รหัสพนักงาน | เจ้าของเครื่อง (คั่นด้วย |)')
+    .setStyle(TextInputStyle.Short)
+    .setPlaceholder('EMP001 | ชื่อเจ้าของเครื่อง')
+    .setRequired(true)
+    .setMaxLength(100);
 
   const problemInput = new TextInputBuilder()
     .setCustomId('problem')
@@ -78,10 +80,10 @@ async function handleDepartmentSelect(interaction) {
     .setMaxLength(1000);
 
   modal.addComponents(
-    new ActionRowBuilder().addComponents(floorInput),
     new ActionRowBuilder().addComponents(computerInput),
-    new ActionRowBuilder().addComponents(ipVoiceEmpInput),
-    new ActionRowBuilder().addComponents(ownerInput),
+    new ActionRowBuilder().addComponents(ipInput),
+    new ActionRowBuilder().addComponents(voiceInput),
+    new ActionRowBuilder().addComponents(empOwnerInput),
     new ActionRowBuilder().addComponents(problemInput)
   );
 

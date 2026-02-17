@@ -10,17 +10,16 @@ async function handleTicketModal(interaction) {
   const customId = interaction.customId;
   const department = customId.replace('ticket_modal_', '');
 
-  const floor = interaction.fields.getTextInputValue('floor');
   const computer = interaction.fields.getTextInputValue('computer');
-  const ipVoiceEmp = interaction.fields.getTextInputValue('ip_voice_emp');
-  const ownerName = interaction.fields.getTextInputValue('owner_name');
+  const ip = interaction.fields.getTextInputValue('ip');
+  const voice = interaction.fields.getTextInputValue('voice');
+  const empOwner = interaction.fields.getTextInputValue('emp_owner');
   const problem = interaction.fields.getTextInputValue('problem');
 
-  // Parse IP | VOICE | Employee ID
-  const parts = ipVoiceEmp.split('|').map((s) => s.trim());
-  const ip = parts[0] || '-';
-  const voice = parts[1] || '-';
-  const employeeId = parts[2] || '-';
+  // Parse รหัสพนักงาน | เจ้าของเครื่อง
+  const parts = empOwner.split('|').map((s) => s.trim());
+  const employeeId = parts[0] || '-';
+  const ownerName = parts[1] || '-';
 
   // Save department preference
   saveUserDepartment(interaction.user.id, department);
@@ -56,7 +55,7 @@ async function handleTicketModal(interaction) {
       reporter: interaction.user.username,
       user_id: interaction.user.id,
       department,
-      floor,
+      floor: '-',
       computer,
       ip,
       voice,
@@ -73,7 +72,6 @@ async function handleTicketModal(interaction) {
         { name: '📅 วันที่เปิดเคส', value: now, inline: true },
         { name: '👤 ผู้แจ้ง', value: interaction.user.username, inline: true },
         { name: '🏢 ส่วนงาน', value: department, inline: true },
-        { name: '🏗️ Floor', value: floor, inline: true },
         { name: '💻 Computer', value: computer, inline: true },
         { name: '🌐 IP', value: ip, inline: true },
         { name: '📞 VOICE', value: voice, inline: true },

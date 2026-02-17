@@ -107,6 +107,63 @@ app.post('/config', (req, res) => {
   res.redirect('/config?saved=1');
 });
 
+// Restart Bot
+app.post('/config/restart', async (req, res) => {
+  try {
+    const { restartBot } = require('../index');
+    await restartBot();
+    res.json({ success: true, message: 'Bot restarted สำเร็จ' });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+});
+
+// Export Excel
+app.get('/export', async (req, res) => {
+  try {
+    const db = getDb();
+    const tickets = db.getAllTickets();
+    if (tickets.length === 0) {
+      return res.status(404).send('ไม่มีข้อมูล Ticket');
+    }
+    const { exportToExcel } = require('../utils/exportExcel');
+    const filePath = await exportToExcel(tickets);
+    res.download(filePath);
+  } catch (error) {
+    console.error('Export error:', error);
+    res.status(500).send('เกิดข้อผิดพลาดในการ Export');
+  }
+});
+
+// Reset (Export + Delete by month)
+app.post('/reset', async (req, res) => {
+  try {
+    const { year, month } = req.body;
+    if (!year || !month) {
+      return res.status(400).json({ success: false, message: 'กรุณาระบุเดือนและปี' });
+    }
+    const db = getDb();
+    const tickets = db.getTicketsByMonth(year, month);
+    if (tickets.length === 0) {
+      return res.json({ success: false, message: 'ไม่พบ Ticket ในเดือนที่เลือก' });
+    }
+    // Export first
+    const { exportToExcel } = require('../utils/exportExcel');
+    const filePath = await exportToExcel(tickets);
+    // Delete
+    const ids = tickets.map(t => t.id);
+    const deleted = db.deleteTicketsByIds(ids);
+    res.json({
+      success: true,
+      message: `Export และลบข้อมูล ${deleted} รายการเรียบร้อย`,
+      exportFile: path.basename(filePath),
+    });
+  } catch (error) {
+    console.error('Reset error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // Departments
 app.get('/departments', (req, res) => {
   const config = loadConfig();
